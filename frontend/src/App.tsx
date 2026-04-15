@@ -27,13 +27,13 @@ type NavItem = {
 }
 
 const PRIMARY_NAV: NavItem[] = [
-  { path: '/', label: '总览', icon: LayoutDashboard, exact: true },
+  { path: '/', label: 'Ringkasan', icon: LayoutDashboard, exact: true },
 ]
 
 const SECONDARY_NAV: NavItem[] = [
-  { path: '/history', label: '任务记录', icon: History },
-  { path: '/proxies', label: '代理资源', icon: Globe },
-  { path: '/settings', label: '配置中心', icon: SettingsIcon },
+  { path: '/history', label: 'Riwayat Tugas', icon: History },
+  { path: '/proxies', label: 'Sumber Proxy', icon: Globe },
+  { path: '/settings', label: 'Pusat Konfigurasi', icon: SettingsIcon },
 ]
 
 function appNavClass(isActive: boolean) {
@@ -70,7 +70,7 @@ function AccountsSubNav() {
       >
         <span className="flex items-center gap-3">
           <Users className={`h-4 w-4 ${isAccounts ? 'text-[var(--accent)]' : 'text-[var(--text-muted)] group-hover:text-[var(--accent)]'}`} />
-          <span>账号资产</span>
+          <span>Aset Akun</span>
         </span>
         {open ? <ChevronDown className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
       </button>
@@ -104,7 +104,7 @@ function Sidebar({ theme, toggleTheme }: { theme: string; toggleTheme: () => voi
     <aside className="app-sidebar flex w-[15rem] shrink-0 flex-col">
       <div className="flex-1 rounded-[24px] border border-[var(--border)] bg-[linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.012))] p-3 shadow-[var(--shadow-hard)] backdrop-blur-xl">
         <div className="mb-3 flex items-center justify-between gap-3 rounded-[18px] border border-[var(--border-soft)] bg-[var(--hero-bg)] px-3 py-2.5">
-          <div className="text-sm font-semibold text-[var(--text-primary)]">控制台</div>
+          <div className="text-sm font-semibold text-[var(--text-primary)]">Konsol</div>
           <button
             type="button"
             onClick={toggleTheme}
@@ -116,7 +116,7 @@ function Sidebar({ theme, toggleTheme }: { theme: string; toggleTheme: () => voi
 
         <div className="space-y-4">
           <section>
-            <div className="mb-2 px-2 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]">入口</div>
+            <div className="mb-2 px-2 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]">Menu</div>
             <nav className="space-y-1.5">
               {PRIMARY_NAV.map(({ path, label, icon: Icon, exact }) => (
                 <NavLink key={path} to={path} end={exact} className={({ isActive }) => appNavClass(isActive)}>
@@ -132,12 +132,12 @@ function Sidebar({ theme, toggleTheme }: { theme: string; toggleTheme: () => voi
           </section>
 
           <section>
-            <div className="mb-2 px-2 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]">资产</div>
+            <div className="mb-2 px-2 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]">Aset</div>
             <AccountsSubNav />
           </section>
 
           <section>
-            <div className="mb-2 px-2 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]">系统</div>
+            <div className="mb-2 px-2 text-[11px] uppercase tracking-[0.22em] text-[var(--text-muted)]">Sistem</div>
             <nav className="space-y-1.5">
               {SECONDARY_NAV.map(({ path, label, icon: Icon }) => (
                 <NavLink key={path} to={path} className={({ isActive }) => appNavClass(isActive)}>

@@ -48,7 +48,7 @@ export function buildRegistrationOptions(platformMeta: any) {
     options.push({
       key: 'mailbox',
       label: getOptionLabel('mailbox', identityModeOptions),
-      description: `使用${getOptionLabel('mailbox', identityModeOptions)}自动收验证码并完成注册`,
+      description: `Gunakan ${getOptionLabel('mailbox', identityModeOptions)} untuk menerima kode verifikasi dan selesaikan pendaftaran secara otomatis`,
       identityProvider: 'mailbox',
       oauthProvider: '',
     })
@@ -60,7 +60,7 @@ export function buildRegistrationOptions(platformMeta: any) {
       options.push({
         key: `oauth:${provider}`,
         label: providerLabel,
-        description: `使用 ${providerLabel} 账号自动创建平台账号`,
+        description: `Gunakan akun ${providerLabel} untuk membuat akun platform secara otomatis`,
         identityProvider: 'oauth_browser',
         oauthProvider: provider,
       })
@@ -86,26 +86,26 @@ export function buildExecutorOptions(
     }
 
     if (executor === 'protocol') {
-      option.description = '不打开浏览器，直接通过协议流程自动注册'
+      option.description = 'Tanpa membuka browser, daftar otomatis langsung melalui protokol'
       if (identityProvider !== 'mailbox') {
         option.disabled = true
-        option.reason = '第三方账号注册必须通过浏览器自动化完成'
+        option.reason = 'Pendaftaran akun pihak ketiga harus melalui otomasi browser'
       }
       return option
     }
 
     if (executor === 'headless') {
       option.description = identityProvider === 'mailbox'
-        ? '浏览器在后台自动执行，界面不可见'
-        : '复用本机浏览器登录态，在后台自动完成第三方登录'
+        ? 'Browser berjalan otomatis di latar belakang, antarmuka tidak terlihat'
+        : 'Gunakan kembali sesi login browser lokal, selesaikan login pihak ketiga di latar belakang'
       if (identityProvider === 'oauth_browser' && !reusableBrowser) {
         option.disabled = true
-        option.reason = '需要先在全局配置里填写 Chrome Profile 路径或 Chrome CDP 地址'
+        option.reason = 'Perlu mengisi path Chrome Profile atau alamat Chrome CDP di konfigurasi global terlebih dahulu'
       }
       return option
     }
 
-    option.description = '会打开浏览器窗口，但系统仍自动执行，无需额外交互'
+    option.description = 'Akan membuka jendela browser, tetapi sistem tetap berjalan otomatis, tidak perlu interaksi tambahan'
     return option
   })
 }

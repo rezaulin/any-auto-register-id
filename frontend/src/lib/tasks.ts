@@ -23,21 +23,21 @@ export function isTerminalTaskStatus(status: string) {
 export function getTaskStatusText(status: string) {
   switch (status) {
     case 'succeeded':
-      return '已完成'
+      return 'Selesai'
     case 'failed':
-      return '失败'
+      return 'Gagal'
     case 'interrupted':
-      return '已中断'
+      return 'Terputus'
     case 'cancelled':
-      return '已取消'
+      return 'Dibatalkan'
     case 'cancel_requested':
-      return '取消中'
+      return 'Sedang dibatalkan'
     case 'running':
-      return '执行中'
+      return 'Berjalan'
     case 'claimed':
-      return '已领取'
+      return 'Diambil'
     case 'pending':
-      return '排队中'
+      return 'Antrean'
     default:
       return status
   }

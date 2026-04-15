@@ -37,10 +37,10 @@ export default function TaskHistory() {
   const failed = tasks.filter(task => task.status === 'failed').length
   const running = tasks.filter(task => ['running', 'claimed', 'pending', 'cancel_requested'].includes(task.status)).length
   const metricCards = [
-    { label: '任务数', value: tasks.length, icon: Activity, tone: 'text-[var(--accent)]' },
-    { label: '成功', value: succeeded, icon: CheckCircle2, tone: 'text-emerald-400' },
-    { label: '失败', value: failed, icon: AlertTriangle, tone: 'text-red-400' },
-    { label: '进行中', value: running, icon: Clock3, tone: 'text-amber-400' },
+    { label: 'Tugas', value: tasks.length, icon: Activity, tone: 'text-[var(--accent)]' },
+    { label: 'Berhasil', value: succeeded, icon: CheckCircle2, tone: 'text-emerald-400' },
+    { label: 'Gagal', value: failed, icon: AlertTriangle, tone: 'text-red-400' },
+    { label: 'Berjalan', value: running, icon: Clock3, tone: 'text-amber-400' },
   ]
 
   return (
@@ -48,13 +48,13 @@ export default function TaskHistory() {
       <Card className="overflow-hidden p-2.5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-2">
-            <div className="text-sm font-semibold text-[var(--text-primary)]">任务记录</div>
-            <Badge variant="default">任务 {tasks.length}</Badge>
-            <Badge variant="secondary">运行中 {running}</Badge>
+            <div className="text-sm font-semibold text-[var(--text-primary)]">Riwayat Tugas</div>
+            <Badge variant="default">Tugas {tasks.length}</Badge>
+            <Badge variant="secondary">Berjalan {running}</Badge>
           </div>
           <Button variant="outline" size="sm" onClick={load} disabled={loading}>
             <RefreshCw className={`h-4 w-4 mr-1 ${loading ? 'animate-spin' : ''}`} />
-            刷新
+            Segarkan
           </Button>
         </div>
       </Card>
@@ -78,8 +78,8 @@ export default function TaskHistory() {
       <Card className="bg-[var(--bg-pane)]/60">
         <div className="space-y-4">
           <div>
-            <div className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">筛选</div>
-            <div className="mt-1 text-sm font-medium text-[var(--text-primary)]">按平台和状态回看任务</div>
+            <div className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Filter</div>
+            <div className="mt-1 text-sm font-medium text-[var(--text-primary)]">Lihat tugas berdasarkan platform dan status</div>
           </div>
           <div className="grid gap-3 md:grid-cols-[minmax(0,220px)_minmax(0,220px)_1fr]">
             <select
@@ -87,7 +87,7 @@ export default function TaskHistory() {
               onChange={e => setPlatform(e.target.value)}
               className="control-surface appearance-none"
             >
-              <option value="">全部平台</option>
+              <option value="">Semua Platform</option>
               {platforms.map((item: any) => (
                 <option key={item.name} value={item.name}>{item.display_name}</option>
               ))}
@@ -97,7 +97,7 @@ export default function TaskHistory() {
               onChange={e => setStatus(e.target.value)}
               className="control-surface appearance-none"
             >
-              <option value="">全部状态</option>
+              <option value="">Semua Status</option>
               <option value="pending">pending</option>
               <option value="claimed">claimed</option>
               <option value="running">running</option>
@@ -110,7 +110,7 @@ export default function TaskHistory() {
             <div className="toolbar-strip justify-start md:justify-end">
               {platform ? <Badge variant="secondary">{platform}</Badge> : null}
               {status ? <Badge variant="warning">{status}</Badge> : null}
-              {!platform && !status ? <Badge variant="secondary">全部任务</Badge> : null}
+              {!platform && !status ? <Badge variant="secondary">Semua Tugas</Badge> : null}
             </div>
           </div>
         </div>
@@ -118,26 +118,26 @@ export default function TaskHistory() {
 
       <Card className="overflow-hidden p-0">
         <div className="border-b border-[var(--border)] px-4 py-3 text-sm font-medium text-[var(--text-primary)]">
-          最近任务
+          Tugas Terbaru
         </div>
         <div className="glass-table-wrap">
         <table className="w-full min-w-[980px] text-sm">
           <thead>
             <tr className="border-b border-[var(--border)] text-[var(--text-muted)]">
-              <th className="px-4 py-2.5 text-left">时间</th>
-              <th className="px-4 py-2.5 text-left">任务 ID</th>
-              <th className="px-4 py-2.5 text-left">平台</th>
-              <th className="px-4 py-2.5 text-left">状态</th>
-              <th className="px-4 py-2.5 text-left">进度</th>
-              <th className="px-4 py-2.5 text-left">结果</th>
-              <th className="px-4 py-2.5 text-left">错误</th>
+              <th className="px-4 py-2.5 text-left">Waktu</th>
+              <th className="px-4 py-2.5 text-left">Task ID</th>
+              <th className="px-4 py-2.5 text-left">Platform</th>
+              <th className="px-4 py-2.5 text-left">Status</th>
+              <th className="px-4 py-2.5 text-left">Progres</th>
+              <th className="px-4 py-2.5 text-left">Hasil</th>
+              <th className="px-4 py-2.5 text-left">Kesalahan</th>
             </tr>
           </thead>
           <tbody>
             {tasks.length === 0 && (
               <tr>
                 <td colSpan={7} className="px-4 py-8">
-                  <div className="empty-state-panel">当前筛选下没有任务记录。</div>
+                  <div className="empty-state-panel">Tidak ada catatan tugas untuk filter saat ini.</div>
                 </td>
               </tr>
             )}
@@ -161,7 +161,7 @@ export default function TaskHistory() {
                   </span>
                 </td>
                 <td className="px-4 py-2.5 text-xs text-[var(--text-secondary)]">
-                  成功 {task.success || 0} / 失败 {task.error_count || 0}
+                  Berhasil {task.success || 0} / Gagal {task.error_count || 0}
                 </td>
                 <td className="px-4 py-2.5 text-xs">
                   <span className={task.error ? 'text-red-400' : 'text-[var(--text-muted)]'}>{task.error || '-'}</span>

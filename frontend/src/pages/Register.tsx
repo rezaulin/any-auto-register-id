@@ -101,7 +101,7 @@ export default function Register() {
           identity_mode_options: [],
           oauth_provider_options: [],
         })
-        setOptionsError('未加载到 provider 元数据。请重启后端后刷新页面。')
+        setOptionsError('Gagal memuat metadata provider. Silakan restart backend dan segarkan halaman.')
       }
       setForm(f => {
         const nextForm: Record<string, any> = {
@@ -317,10 +317,10 @@ export default function Register() {
   const summaryExecutor = executorOptions.find(option => option.value === form.executor_type)?.label || '-'
   const summaryVerification = getCaptchaStrategyLabel(form.executor_type, configOptions.captcha_policy, configOptions.captcha_providers)
   const activeTaskStats = task ? [
-    { label: '状态', value: getTaskStatusText(task.status), icon: Orbit },
-    { label: '进度', value: task.progress || '0/0', icon: Workflow },
-    { label: '成功', value: String(task.success ?? 0), icon: CheckCircle },
-    { label: '失败', value: String(task.error_count ?? task.errors?.length ?? 0), icon: XCircle },
+    { label: 'Status', value: getTaskStatusText(task.status), icon: Orbit },
+    { label: 'Progres', value: task.progress || '0/0', icon: Workflow },
+    { label: 'Berhasil', value: String(task.success ?? 0), icon: CheckCircle },
+    { label: 'Gagal', value: String(task.error_count ?? task.errors?.length ?? 0), icon: XCircle },
   ] : []
 
   return (
@@ -328,18 +328,18 @@ export default function Register() {
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_340px]">
         <div className="space-y-4">
           <Card>
-            <CardHeader><CardTitle>基本配置</CardTitle></CardHeader>
+            <CardHeader><CardTitle>Konfigurasi Dasar</CardTitle></CardHeader>
             <CardContent className="space-y-4">
-              <Select label="平台" k="platform" options={platformOptions} />
+              <Select label="Platform" k="platform" options={platformOptions} />
               <div className="grid gap-4 md:grid-cols-2">
-                <Input label="批量数量" k="count" type="number" />
-                <Input label="代理 (可选)" k="proxy" placeholder="http://user:pass@host:port" />
+                <Input label="Jumlah Batch" k="count" type="number" />
+                <Input label="Proxy (Opsional)" k="proxy" placeholder="http://user:pass@host:port" />
               </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardHeader><CardTitle>Step 1 · 注册身份</CardTitle></CardHeader>
+            <CardHeader><CardTitle>Step 1 · Identitas Registrasi</CardTitle></CardHeader>
             <CardContent className="space-y-3">
               <div className="grid gap-3 md:grid-cols-2">
                 {registrationOptions.map((option) => {
@@ -371,7 +371,7 @@ export default function Register() {
           </Card>
 
           <Card>
-            <CardHeader><CardTitle>Step 2 · 执行通道</CardTitle></CardHeader>
+            <CardHeader><CardTitle>Step 2 · Saluran Eksekusi</CardTitle></CardHeader>
             <CardContent className="space-y-3">
               <div className="grid gap-3 md:grid-cols-3">
                 {executorOptions.map((option) => {
@@ -401,11 +401,11 @@ export default function Register() {
               </div>
               {form.identity_provider === 'oauth_browser' && (
                 <>
-                  <Input label="预期登录邮箱 (可选)" k="oauth_email_hint" placeholder="your-account@example.com" />
-                  <Input label="Chrome Profile 路径" k="chrome_user_data_dir" placeholder="~/Library/Application Support/Google/Chrome" />
-                  <Input label="Chrome CDP 地址" k="chrome_cdp_url" placeholder="http://localhost:9222" />
+                  <Input label="Email Login yang Diharapkan (Opsional)" k="oauth_email_hint" placeholder="your-account@example.com" />
+                  <Input label="Path Chrome Profile" k="chrome_user_data_dir" placeholder="~/Library/Application Support/Google/Chrome" />
+                  <Input label="Alamat Chrome CDP" k="chrome_cdp_url" placeholder="http://localhost:9222" />
                   <p className="text-xs text-[var(--text-muted)]">
-                    第三方账号走后台浏览器自动时，建议先配置 Chrome Profile 或 Chrome CDP，以便复用本机已登录的浏览器会话。
+                    Ketika akun pihak ketiga menggunakan browser latar belakang otomatis, disarankan mengonfigurasi Chrome Profile atau Chrome CDP terlebih dahulu untuk menggunakan sesi browser yang sudah login.
                   </p>
                 </>
               )}
@@ -414,7 +414,7 @@ export default function Register() {
 
           {form.identity_provider === 'mailbox' && (
             <Card>
-              <CardHeader><CardTitle>系统邮箱配置</CardTitle></CardHeader>
+              <CardHeader><CardTitle>Konfigurasi Email Sistem</CardTitle></CardHeader>
               <CardContent className="space-y-4">
                 {optionsError && (
                   <div className="rounded-2xl border border-red-500/20 bg-red-500/10 px-4 py-3 text-sm text-red-300">
@@ -422,10 +422,10 @@ export default function Register() {
                   </div>
                 )}
                 {mailboxProviderOptions.length > 0 ? (
-                  <Select label="邮箱服务" k="mail_provider" options={mailboxProviderOptions} />
+                  <Select label="Layanan Email" k="mail_provider" options={mailboxProviderOptions} />
                 ) : (
                   <div className="rounded-2xl border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-sm text-amber-200">
-                    当前没有已启用的邮箱 provider，请先到设置页新增并启用一个默认邮箱 provider。
+                    Tidak ada provider email yang aktif, silakan tambahkan dan aktifkan provider email default di halaman Pengaturan.
                   </div>
                 )}
                 {currentMailboxProvider?.description ? (
@@ -440,7 +440,7 @@ export default function Register() {
         <div className="space-y-5 xl:sticky xl:top-4 xl:self-start">
           <Card className="bg-[var(--bg-pane)]/62">
             <CardHeader>
-              <CardTitle>当前编排摘要</CardTitle>
+              <CardTitle>Ringkasan Orkestrasi Saat Ini</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
@@ -462,7 +462,7 @@ export default function Register() {
                 </div>
               </div>
               <Button onClick={submit} disabled={polling} className="w-full">
-                {polling ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />注册中...</> : <><Play className="mr-2 h-4 w-4" />开始注册</>}
+                {polling ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" />Mendaftar...</> : <><Play className="mr-2 h-4 w-4" />Mulai Registrasi</>}
               </Button>
             </CardContent>
           </Card>
@@ -472,7 +472,7 @@ export default function Register() {
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    执行状态
+                    Status Eksekusi
                     <Badge variant={TASK_STATUS_VARIANTS[task.status] || 'secondary'}>
                       {getTaskStatusText(task.status)}
                     </Badge>
@@ -491,7 +491,7 @@ export default function Register() {
                     ))}
                   </div>
                   <div className="rounded-[20px] border border-[var(--border-soft)] bg-[var(--chip-bg)] p-3 text-xs text-[var(--text-secondary)]">
-                    <div>任务 ID</div>
+                    <div>Task ID</div>
                     <div className="mt-1 break-all font-mono text-[var(--text-primary)]">{task.id}</div>
                   </div>
                   {task.errors?.length > 0 && (
@@ -513,19 +513,19 @@ export default function Register() {
                   {task.status === 'interrupted' && !task.error && (
                     <div className="flex items-center gap-2 text-amber-400">
                       <XCircle className="h-4 w-4" />
-                      <span className="text-xs">任务在服务重启后被中断</span>
+                      <span className="text-xs">Tugas terputus setelah layanan di-restart</span>
                     </div>
                   )}
                   {task.status === 'cancelled' && !task.error && (
                     <div className="flex items-center gap-2 text-amber-400">
                       <XCircle className="h-4 w-4" />
-                      <span className="text-xs">任务已取消</span>
+                      <span className="text-xs">Tugas telah dibatalkan</span>
                     </div>
                   )}
                 </CardContent>
               </Card>
               <Card>
-                <CardHeader><CardTitle>实时日志</CardTitle></CardHeader>
+                <CardHeader><CardTitle>Log Real-time</CardTitle></CardHeader>
                 <CardContent>
                   <TaskLogPanel taskId={task.id} onDone={handleTaskDone} />
                 </CardContent>
@@ -533,8 +533,8 @@ export default function Register() {
             </>
           ) : (
             <Card className="bg-[var(--bg-pane)]/55">
-              <CardHeader><CardTitle>等待执行</CardTitle></CardHeader>
-              <CardContent className="text-sm text-[var(--text-secondary)]">创建后显示状态与日志。</CardContent>
+              <CardHeader><CardTitle>Menunggu Eksekusi</CardTitle></CardHeader>
+              <CardContent className="text-sm text-[var(--text-secondary)]">Status dan log akan ditampilkan setelah dibuat.</CardContent>
             </Card>
           )}
         </div>
