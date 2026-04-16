@@ -1904,8 +1904,19 @@ def _browser_registration_flow(page, email: str, password: str, otp_callback, lo
             if "about-you" not in str(page.url):
                 log(f"跳转到 about_you 页面: {target_url[:120]}")
                 page.goto(target_url, wait_until="domcontentloaded", timeout=30000)
-            about_resp = _submit_about_you_via_page(page, log)
-            log(f"about_you 提交状态: {about_resp.get('status', 0)}")
+
+            # Try API approach first (with sentinel token)
+            try:
+                user_agent = str(page.evaluate("() => navigator.userAgent") or "").strip() or _random_chrome_ua()
+            except Exception:
+                user_agent = _random_chrome_ua()
+            about_resp = _submit_browser_about_you(page, device_id, user_agent, target_url)
+            log(f"about_you API 提交状态: {about_resp.get('status', 0)}")
+            if not about_resp.get("ok"):
+                # Fallback to page form approach
+                log("about_you API 失败，尝试页面表单...")
+                about_resp = _submit_about_you_via_page(page, log)
+                log(f"about_you 表单提交状态: {about_resp.get('status', 0)}")
             if not about_resp.get("ok"):
                 raise RuntimeError(f"about_you 提交失败: {(about_resp.get('text') or '')[:300]}")
             state = _extract_flow_state(about_resp.get("data"), about_resp.get("url", page.url))
