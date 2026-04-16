@@ -1,4 +1,5 @@
 """ChatGPT 浏览器注册流程（Camoufox）。"""
+import random
 import time
 import uuid
 from typing import Callable, Optional
