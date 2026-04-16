@@ -1702,6 +1702,48 @@ def _submit_about_you_via_page(page, log) -> dict:
         or (fill_result.get("month") and fill_result.get("day") and fill_result.get("year"))
     ):
         raise RuntimeError("about_you 未成功填写 Birthday/Age")
+
+    # Solve Turnstile before submitting
+    try:
+        sitekey = page.evaluate("""() => {
+            const el = document.querySelector('[data-sitekey]');
+            if (el) return el.getAttribute('data-sitekey');
+            const scripts = document.querySelectorAll('script');
+            for (const s of scripts) {
+                const m = (s.textContent || '').match(/sitekey['":\\s]+['"]([^'"]+)['"]/);
+                if (m) return m[1];
+            }
+            return null;
+        }""")
+        if sitekey:
+            log(f"about_you Turnstile sitekey: {sitekey}")
+            import requests as _req
+            solver_resp = _req.get(
+                f"http://localhost:8889/turnstile",
+                params={"url": page.url, "sitekey": sitekey},
+                timeout=60,
+            ).json()
+            token = solver_resp.get("solution") or solver_resp.get("token") or solver_resp.get("value") or ""
+            if token:
+                log(f"about_you Turnstile solved: {token[:30]}...")
+                page.evaluate(f"""() => {{
+                    const el = document.querySelector('input[name="cf-turnstile-response"]');
+                    if (el) el.value = '{token}';
+                    // Also try setting via Turnstile API
+                    if (window.turnstile) {{
+                        try {{ window.turnstile.getResponse(); }} catch(e) {{
+                            const widgets = document.querySelectorAll('[data-sitekey]');
+                            widgets.forEach(w => {{
+                                try {{ window.turnstile.execute(w); }} catch(e2) {{}}
+                            }});
+                        }}
+                    }}
+                }}""")
+            else:
+                log(f"about_you Turnstile solver returned: {solver_resp}")
+    except Exception as e:
+        log(f"about_you Turnstile solve attempt: {e}")
+
     _browser_pause(page)
 
     submit_selector = _click_first(
