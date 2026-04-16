@@ -1456,9 +1456,7 @@ class FreemailMailbox(BaseMailbox):
         if self.admin_token:
             s.headers.update({"Authorization": f"Bearer {self.admin_token}"})
         elif self.username and self.password:
-            s.post(f"{self.api}/api/login",
-                json={"username": self.username, "password": self.password},
-                timeout=15)
+            s.auth = (self.username, self.password)
         self._session = s
         return s
 
@@ -1511,8 +1509,12 @@ class FreemailMailbox(BaseMailbox):
     def get_current_ids(self, account: MailboxAccount) -> set:
         try:
             r = self._session.get(f"{self.api}/api/emails",
-                params={"mailbox": account.email, "limit": 50}, timeout=10)
-            return {str(m["id"]) for m in r.json() if "id" in m}
+                params={"email": account.email, "limit": 50}, timeout=10)
+            data = r.json()
+            # Handle both array response and object with emails key
+            if isinstance(data, list):
+                return {str(m["id"]) for m in data if "id" in m}
+            return {str(m["id"]) for m in data.get("emails", []) if "id" in m}
         except Exception:
             return set()
 
@@ -1524,8 +1526,10 @@ class FreemailMailbox(BaseMailbox):
         while time.time() - start < timeout:
             try:
                 r = self._session.get(f"{self.api}/api/emails",
-                    params={"mailbox": account.email, "limit": 20}, timeout=10)
-                for msg in r.json():
+                    params={"email": account.email, "limit": 20}, timeout=10)
+                data = r.json()
+                messages = data if isinstance(data, list) else data.get("emails", [])
+                for msg in messages:
                     mid = str(msg.get("id", ""))
                     if not mid or mid in seen: continue
                     seen.add(mid)
@@ -1550,8 +1554,10 @@ class FreemailMailbox(BaseMailbox):
         while time.time() - start < timeout:
             try:
                 r = self._session.get(f"{self.api}/api/emails",
-                    params={"mailbox": account.email, "limit": 20}, timeout=10)
-                for msg in r.json():
+                    params={"email": account.email, "limit": 20}, timeout=10)
+                data = r.json()
+                messages = data if isinstance(data, list) else data.get("emails", [])
+                for msg in messages:
                     mid = str(msg.get("id", ""))
                     if not mid or mid in seen:
                         continue
