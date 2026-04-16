@@ -106,15 +106,15 @@ export function TaskLogPanel({
     <div className="flex flex-col h-full">
       <div className="mb-3 flex items-center justify-between gap-3">
         <div>
-          <div className=\"text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]\">Log</div>
-          <div className=\"mt-1 text-sm font-medium text-[var(--text-primary)]\">Log Eksekusi Tugas</div>
+          <div className="text-[11px] uppercase tracking-[0.18em] text-[var(--text-muted)]">Log</div>
+          <div className="mt-1 text-sm font-medium text-[var(--text-primary)]">Log Eksekusi Tugas</div>
         </div>
         <div className="rounded-full border border-[var(--border-soft)] bg-[var(--chip-bg)] px-3 py-1 text-xs text-[var(--text-secondary)]">
           {doneStatus ? getTaskStatusText(doneStatus) : 'Sedang Berjalan'}
         </div>
       </div>
       <div className="flex-1 overflow-y-auto rounded-[22px] border border-[var(--border)] bg-[linear-gradient(180deg,rgba(3,8,8,0.45),rgba(3,8,8,0.24))] p-4 font-mono text-xs space-y-1 min-h-[220px] max-h-[420px] shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
-        {lines.length === 0 && <div className=\"text-[var(--text-muted)]\">Menunggu log...</div>}
+        {lines.length === 0 && <div className="text-[var(--text-muted)]">Menunggu log...</div>}
         {lines.map((line, index) => (
           <div
             key={index}
